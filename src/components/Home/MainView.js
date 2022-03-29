@@ -30,6 +30,8 @@ function MainView(){
                     <GlobalFeedTab tab="a"/>
                 </ul>
             </div>
+
+            
         </div>
     );
 }
