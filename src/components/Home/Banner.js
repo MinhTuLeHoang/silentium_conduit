@@ -1,13 +1,15 @@
 import React from "react";
+import "./Banner.css";
 
 function Banner(){
     return (
-        <div className="banner-container d-flex justify-content-center">
-            <h1>Conduit</h1>
-            <p>A place to share your knowledge</p>
-            <button type="button" class="btn btn-primary">Primary</button>
+        <div className="banner">
+            <div className="container">
+                <h1 className="logo-front">Conduit</h1>
+                <p>A place to share your knowledge</p>
+            </div>
         </div>
     );
 }
 
-export default Banner;
+export default React.memo(Banner);
