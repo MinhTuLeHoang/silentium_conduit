@@ -1,17 +1,50 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import ListErrors from './ListErrors'
+import {
+    UPDATE_FIELD_AUTH,
+    LOGIN,
+    LOGIN_PAGE_UNLOADED
+} from '../constants/actionTypes'
+import agent from '../agent'
+import { useDispatch, useSelector } from 'react-redux'
+import { authSelector } from '../selectors/selectors'
 
 const Login = () => {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const auth = useSelector(authSelector)
+    const dispatch = useDispatch()
 
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value)
+    const onChangeEmail = (e) => {
+        dispatch({
+            type: UPDATE_FIELD_AUTH,
+            key: "email",
+            value: e.target.value
+        })
     }
 
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value)
+    const onChangePassword = (e) => {
+        dispatch({
+            type: UPDATE_FIELD_AUTH,
+            key: "password",
+            value: e.target.value
+        })
     }
+
+    const onSubmit = (email, password) => e => {
+        e.preventDefault()
+        dispatch({
+            type: LOGIN,
+            payload: agent.Auth.login(email, password)
+        })
+    }
+
+    useEffect(() => {
+        return () => {
+            dispatch({
+                type: LOGIN_PAGE_UNLOADED
+            })
+        }
+    }, [])
 
     return (
         <div className='auth-page'>
@@ -25,7 +58,9 @@ const Login = () => {
                             </Link>
                         </p>
 
-                        <form>
+                        <ListErrors errors={auth.errors} />
+
+                        <form onSubmit={onSubmit(auth.email, auth.password)}>
                             <fieldset>
 
                                 <fieldset className='form-group'>
@@ -34,8 +69,8 @@ const Login = () => {
                                         type='email'
                                         autoComplete='username' 
                                         placeholder='Email' 
-                                        value={email}
-                                        onChange={handleEmailChange} />
+                                        value={auth.email || ''}
+                                        onChange={onChangeEmail} />
                                 </fieldset>
 
                                 <fieldset className='form-group'>
@@ -43,11 +78,11 @@ const Login = () => {
                                         className='form-control form-control-lg' 
                                         type='password' 
                                         placeholder='Password' 
-                                        value={password}
-                                        onChange={handlePasswordChange} />
+                                        value={auth.password || ''}
+                                        onChange={onChangePassword} />
                                 </fieldset>
 
-                                <button className='btn btn-lg btn-primary pull-xs-right' type='submit'>
+                                <button className='btn btn-lg btn-primary pull-xs-right' type='submit' disabled={auth.inProgress}>
                                     Sign in
                                 </button>
 

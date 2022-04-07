@@ -1,5 +1,7 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom"
+import { LOGOUT } from "../constants/actionTypes";
 
 const LoggedOutView = React.memo(props => {
     if (!props.currentUser) {
@@ -51,8 +53,8 @@ const LoggedInView = React.memo(props => {
                 </li>
 
                 <li className="nav-item">
-                    <Link to="/account" className="nav-link">
-                        <img src="https://static.productionready.io/images/smiley-cyrus.jpg" className="user-pic"/>
+                    <Link to={`/@${props.currentUser.username}`} className="nav-link">
+                        <img src={props.currentUser.image || "https://static.productionready.io/images/smiley-cyrus.jpg"} className="user-pic" alt={props.currentUser.username}/>
                         {props.currentUser.username}
                     </Link>
                 </li>
@@ -63,15 +65,25 @@ const LoggedInView = React.memo(props => {
 })
 
 const Header = (props) => {
+    const dispatch = useDispatch()
+
+    const onClickLogout = () => {
+        dispatch({
+            type: LOGOUT
+        })
+    }
     return (
         <nav className="navbar navbar-light">
             <div className="container">
                 <Link to="/" className="navbar-brand">
-                    {props.appName}
+                    {props.appName.toLowerCase()}
                 </Link>
 
                 <LoggedOutView currentUser={props.currentUser} />
                 <LoggedInView currentUser={props.currentUser} />
+                <button className='btn btn-outline-danger' onClick={onClickLogout}>
+                    Logout.
+                </button>
             </div>
 
         </nav>
