@@ -1,22 +1,57 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import agent from '../agent'
+import { useSelector, useDispatch } from 'react-redux'
+import { authSelector } from '../selectors/selectors'
+import {
+    UPDATE_FIELD_AUTH,
+    REGISTER,
+    REGISTER_PAGE_UNLOADED
+} from '../constants/actionTypes'
+import ListErrors from './ListErrors'
 
 const Register = () => {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [username, setUsername] = useState("")
+    const dispatch = useDispatch()
+    const auth = useSelector(authSelector)
 
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value)
+    const onChangeEmail = (e) => {
+        dispatch({
+            type: UPDATE_FIELD_AUTH,
+            key: 'email',
+            value: e.target.value
+        })
     }
 
-    const handleUsernameChange = (e) => {
-        setUsername(e.target.value)
+    const onChangeUsername = (e) => {
+        dispatch({
+            type: UPDATE_FIELD_AUTH,
+            key: 'username',
+            value: e.target.value
+        })
     }
 
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value)
+    const onChangePassword = (e) => {
+        dispatch({
+            type: UPDATE_FIELD_AUTH,
+            key: 'password',
+            value: e.target.value
+        })
     }
+
+    const onSubmit = (username, email, password) => e => {
+        e.preventDefault()
+        const payload = agent.Auth.register(username, email, password)
+        dispatch({
+            type: REGISTER,
+            payload
+        })
+    }
+
+    useEffect(() => {
+        return () => dispatch({
+            type: REGISTER_PAGE_UNLOADED
+        })
+    }, [])
 
     return (
         <div className='auth-page'>
@@ -30,15 +65,17 @@ const Register = () => {
                             </Link>
                         </p>
 
-                        <form>
+                        <ListErrors errors={auth.errors} />
+
+                        <form onSubmit={onSubmit(auth.username, auth.email, auth.password)}>
                             <fieldset>
                                 <fieldset className='form-group'>
                                     <input 
                                         className='form-control form-control-lg' 
                                         type='text' 
                                         placeholder='Username' 
-                                        value={username}
-                                        onChange={handleUsernameChange} />
+                                        value={auth.username || ''}
+                                        onChange={onChangeUsername} />
                                 </fieldset>
 
                                 <fieldset className='form-group'>
@@ -47,8 +84,8 @@ const Register = () => {
                                         type='email'
                                         autoComplete='username' 
                                         placeholder='Email' 
-                                        value={email}
-                                        onChange={handleEmailChange} />
+                                        value={auth.email || ''}
+                                        onChange={onChangeEmail} />
                                 </fieldset>
 
                                 <fieldset className='form-group'>
@@ -56,11 +93,11 @@ const Register = () => {
                                         className='form-control form-control-lg' 
                                         type='password' 
                                         placeholder='Password' 
-                                        value={password}
-                                        onChange={handlePasswordChange} />
+                                        value={auth.password || ''}
+                                        onChange={onChangePassword} />
                                 </fieldset>
 
-                                <button className='btn btn-lg btn-primary pull-xs-right' type='submit'>
+                                <button className='btn btn-lg btn-primary pull-xs-right' type='submit' disabled={auth.inProgress}>
                                     Sign up
                                 </button>
                             </fieldset>

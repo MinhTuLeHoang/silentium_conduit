@@ -53,7 +53,7 @@ const LoggedInView = React.memo(props => {
                 <li className="nav-item">
                     <Link to="/account" className="nav-link">
                         <img src="https://static.productionready.io/images/smiley-cyrus.jpg" className="user-pic"/>
-                        Thuong
+                        {props.currentUser.username}
                     </Link>
                 </li>
             </ul>
@@ -62,16 +62,16 @@ const LoggedInView = React.memo(props => {
     return null;
 })
 
-const Header = () => {
+const Header = (props) => {
     return (
         <nav className="navbar navbar-light">
             <div className="container">
                 <Link to="/" className="navbar-brand">
-                    Conduit
+                    {props.appName}
                 </Link>
 
-                <LoggedOutView currentUser={null} />
-                <LoggedInView currentUser={null} />
+                <LoggedOutView currentUser={props.currentUser} />
+                <LoggedInView currentUser={props.currentUser} />
             </div>
 
         </nav>
