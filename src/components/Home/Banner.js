@@ -1,5 +1,7 @@
 import React from "react";
 import "./Banner.css";
+import ArticleMeta from "../Articles/ArticleMeta";
+
 
 function Banner(props){
     return (
@@ -12,7 +14,7 @@ function Banner(props){
                 : 
                     <div className="container">
                         <h1>{props.article.title}</h1>
-                        <p>This is a description</p>
+                        <ArticleMeta />
                     </div>
                 }
         </div>
