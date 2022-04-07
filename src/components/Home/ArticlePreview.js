@@ -7,13 +7,13 @@ const ArticlePreview = (props) => {
     return(
         <div className="article-preview">
             <div className="article-meta">
-                <Link to="/">
+                <Link to="/article">
                     {/* <img src="public/logo512.png" alt={props.articles.username} /> */}
                     <img src={props.articles.img_name} alt="props.articles.author.username" />
                 </Link>
 
                 <div className="info">
-                    <Link to="/" className="author">
+                    <Link to="/article" className="author">
                         {props.articles.author.username}
                     </Link>
                     <span className="date">{new Date(props.articles.date).toDateString()}</span>

@@ -6,7 +6,7 @@ import Tags from "./Tags";
 function Home(){
     return (
         <div className="home-page">
-            <Banner/>
+            <Banner isHome={true}/>
             <div className="container page">
                 <div className="row">
                     <MainView/>
