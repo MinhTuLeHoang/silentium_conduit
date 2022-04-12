@@ -47,10 +47,10 @@ function App() {
         {/* Neu muon su dung Lazy import thi can suspense */}
         <Suspense fallback="Loading . . ."> 
           <Routes>
-            <Route exact path="/" element={<Home />}/>
+            <Route exact path="/" element={<Home currentUser={app.currentUser}/>}/>
             <Route exact path="/register" element={<Register />}/>
             <Route exact path="/login" element={<Login />}/>
-            <Route exact path={"/article"} element={<Article />}/>
+            <Route exact path="/article/:id" element={<Article />}/>
           </Routes>
         </Suspense>
       </BrowserRouter>

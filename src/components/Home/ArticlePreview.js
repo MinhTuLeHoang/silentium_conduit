@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 
 
 const ArticlePreview = (props) => {
-    console.log(props)
+    // console.log(props)
     return(
         <div className="article-preview">
             <div className="article-meta">
-                <Link to="/article">
+                <Link to="/article/${props.article.slug}">
                     {/* <img src="public/logo512.png" alt={props.articles.username} /> */}
                     <img src={props.articles.img_name} alt="props.articles.author.username" />
                 </Link>
