@@ -133,23 +133,6 @@ function FunctionalCount(){
     const [count, setMyCount] = useState(0)
     const [msg, setMsg] = useState("abc")
 
-    useEffect(() => {
-        // console.log("rerender here")
-        document.title = `You clicked ${count} times`
-        // console.log(document.title)
-
-        return () => {
-            // console.log("unmout here")
-        }
-    },[count])
-
-    useEffect(() => {
-        // console.log("Tu dep trai")
-        setInterval(() => {
-            setMsg("xyz")
-        }, 2000);
-    },[msg])
-
     return (
         <div>
             <p>You click {count} times</p>
@@ -226,7 +209,30 @@ const Page1 = (props) => {
 
 
 
+
+
 function MainView() {
+    const [localNumber, setLocalNumber] = useState(0)
+    const [childNumber, setChildNumber] = useState(0)
+    const [arr, setArr] = useState([1,2,3,4,5,6,7,8,9,10,11,12,13,14])
+
+    function incrementLocal() {
+        setLocalNumber(state => state + 1)
+    }
+
+    function changeChildNumber(number) {
+        setChildNumber(number)
+    }
+
+    function getLargeNumber() {
+        console.log("I'm working")
+        return Math.max(...arr)
+    }
+
+    function changeArray() {
+        setArr([60, 70, 80, 90])
+    }
+
     let count = 0
     return (
         <div className="col-md-9">
@@ -244,13 +250,7 @@ function MainView() {
 
             <br/><br/><br/><br/>
 
-            <TextInputWithFocusButton />
-
-            <hr/>
-
-            <Abc />
-            <hr/>
-            <hr/>
+            
 
             {/* {<p>true</p> && <h2>false</h2>} */}
             
@@ -269,6 +269,9 @@ function MainView() {
             <hr />
 
             <FunctionalCount />
+
+
+            
         </div>
     );
 }

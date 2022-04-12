@@ -1,5 +1,5 @@
 import './App.css';
-import { Route, BrowserRouter, Routes } from 'react-router-dom';
+import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import Home from './components/Home';
 import Header from './components/Header';
 import { lazy, Suspense } from 'react';
@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { appSelector } from './selectors/selectors';
 import { useEffect } from 'react';
 import agent from './agent';
+import Profile from './components/Profile';
 
 const Login = lazy( () => import('./components/Login'))
 const Register = lazy(() => import('./components/Register'))
@@ -50,10 +51,12 @@ function App() {
         <Suspense fallback="Loading . . ."> 
           <Routes>
             <Route exact path="/" element={<Home currentUser={app.currentUser}/>}/>
-            <Route exact path="/register" element={<Register />}/>
-            <Route exact path="/login" element={<Login />}/>
             <Route exact path="/article/:id" element={<Article />}/>
             <Route exact path="/testing" element={<Testing />} />
+            <Route exact path="/" element={<Home />}/>
+            <Route path="/register" element={<Register />}/>
+            <Route path="/login" element={<Login />}/>
+            <Route path="/@:username" element={<Profile />}/>
           </Routes>
         </Suspense>
       </BrowserRouter>
