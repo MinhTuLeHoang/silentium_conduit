@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import ArticleList from "./ArticleList";
 
 
@@ -33,6 +33,7 @@ function LifecycleDemo(props) {
 
 
   
+  /////////////////////////////
 
 const YourFeedTab = React.memo(props => {
     const feedOnClick = () => {
@@ -48,6 +49,7 @@ const YourFeedTab = React.memo(props => {
     }
     return null;
 })
+
 
 
 const GlobalFeedTab = React.memo(props => {
@@ -74,6 +76,22 @@ const MyTab = React.memo(()=>{
     );
 })
 
+//////////////////////////////
+
+function TextInputWithFocusButton() {
+    const inputEl = useRef(null);
+    const onButtonClick = () => {
+      // `current` points to the mounted text input element
+      inputEl.current.focus();
+    };
+    return (
+      <>
+        <input ref={inputEl} type="text" />
+        <button onClick={onButtonClick}>Focus the input</button>
+      </>
+    );
+  }
+
 
 class ButtonCount extends React.Component {
     constructor(props) {
@@ -88,7 +106,8 @@ class ButtonCount extends React.Component {
 
     ListItem(props){
         return(
-            <li key={props.value.toString()}>{props.value}</li>
+            // <li key={props.value.toString()}>{props.value}</li>
+            <li>{props.value}</li>
         );
     }
 
@@ -96,14 +115,14 @@ class ButtonCount extends React.Component {
         let arr = [...Array(this.state.num + 1).keys()].slice(1)
         return (
             <div>
+                <button type="button" onClick={this.buttonHandling}>Count me up</button>
+                <br />
                 <ul>
                     {arr.map((x, key) => 
                     // <li key={key}><strong>{x}</strong></li>
-                    <this.ListItem value={x}/>
+                    <this.ListItem value={x} key={key}/>
                     )}
                 </ul>
-                <br />
-                <button type="button" onClick={this.buttonHandling}>Click me</button>
             </div>
         )
     }
@@ -225,6 +244,10 @@ function MainView() {
 
             <br/><br/><br/><br/>
 
+            <TextInputWithFocusButton />
+
+            <hr/>
+
             <Abc />
             <hr/>
             <hr/>
@@ -232,6 +255,7 @@ function MainView() {
             {/* {<p>true</p> && <h2>false</h2>} */}
             
             {false ? <p>true</p> : <p>false</p>}
+            <hr/>
             <ButtonCount />
 
             <hr />

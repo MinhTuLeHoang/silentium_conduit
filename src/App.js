@@ -15,6 +15,8 @@ const Login = lazy( () => import('./components/Login'))
 const Register = lazy(() => import('./components/Register'))
 const Article = lazy( () => import('./components/Articles'))
 
+const Testing = lazy( () => import("./components/Testing/index"))
+
 function App() {
   const app = useSelector(appSelector)
   const dispatch = useDispatch()
@@ -51,6 +53,7 @@ function App() {
             <Route exact path="/register" element={<Register />}/>
             <Route exact path="/login" element={<Login />}/>
             <Route exact path="/article/:id" element={<Article />}/>
+            <Route exact path="/testing" element={<Testing />} />
           </Routes>
         </Suspense>
       </BrowserRouter>
