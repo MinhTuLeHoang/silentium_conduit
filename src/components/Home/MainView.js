@@ -2,6 +2,38 @@ import React, {useState, useEffect} from "react";
 import ArticleList from "./ArticleList";
 
 
+function LifecycleDemo(props) {
+    // It takes a function
+    useEffect(() => {
+      console.log("render!");
+  
+      return () => console.log("unmounting...");
+    },[props.show]);
+  
+    return "I'm a lifecycle demo";
+  }
+  
+  function Abc() {
+    const [random, setRandom] = useState(Math.random());
+    const [mounted, setMounted] = useState(true);
+
+    const reRender = () => setRandom(Math.random());
+    const toggle = () => setMounted(!mounted);
+  
+    return (
+      <>
+        <button onClick={reRender}>Re-render</button>
+        <button onClick={toggle}>Show/Hide LifecycleDemo</button>
+        <div>{mounted && <LifecycleDemo show={mounted}/>}</div>
+      </>
+    );
+  }
+
+
+
+
+  
+
 const YourFeedTab = React.memo(props => {
     const feedOnClick = () => {
         props.setTab("feed")
@@ -80,15 +112,30 @@ class ButtonCount extends React.Component {
 
 function FunctionalCount(){
     const [count, setMyCount] = useState(0)
+    const [msg, setMsg] = useState("abc")
 
     useEffect(() => {
+        // console.log("rerender here")
         document.title = `You clicked ${count} times`
-        console.log(document.title)
-    })
+        // console.log(document.title)
+
+        return () => {
+            // console.log("unmout here")
+        }
+    },[count])
+
+    useEffect(() => {
+        // console.log("Tu dep trai")
+        setInterval(() => {
+            setMsg("xyz")
+        }, 2000);
+    },[msg])
 
     return (
         <div>
             <p>You click {count} times</p>
+            <strong>{msg}</strong>
+            <br/>
             <button onClick={() => setMyCount(count + 1)}>Click me</button>
         </div>
     );
@@ -155,6 +202,8 @@ const Page1 = (props) => {
     );
 }
 
+// const 
+
 
 
 
@@ -175,6 +224,10 @@ function MainView() {
             <hr/>
 
             <br/><br/><br/><br/>
+
+            <Abc />
+            <hr/>
+            <hr/>
 
             {/* {<p>true</p> && <h2>false</h2>} */}
             
