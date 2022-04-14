@@ -5,10 +5,10 @@ import Banner from "./../Home/Banner"
 
 let my_count = {num:0}
 
+
 const ReactRef = () => {
     const [inputValue, setInputValue] = useState("");
     const count = useRef({num:0});
-    
 
     useEffect(() => {
         my_count.num = my_count.num + 1;

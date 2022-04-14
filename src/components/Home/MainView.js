@@ -6,35 +6,35 @@ import './Banner.css'
 function LifecycleDemo(props) {
     // It takes a function
     useEffect(() => {
-      console.log("render!");
-  
-      return () => console.log("unmounting...");
-    },[props.show]);
-  
+        console.log("Lifecycle render in FUNC COMPONENT");
+
+        return () => console.log("unmounting in FUNC COMPONENT");
+    }, [props.show]);
+
     return "I'm a lifecycle demo";
-  }
-  
-  function Abc() {
+}
+
+function Abc() {
     const [random, setRandom] = useState(Math.random());
     const [mounted, setMounted] = useState(true);
 
     const reRender = () => setRandom(Math.random());
     const toggle = () => setMounted(!mounted);
-  
+
     return (
-      <>
-        <button onClick={reRender}>Re-render</button>
-        <button onClick={toggle}>Show/Hide LifecycleDemo</button>
-        <div>{mounted && <LifecycleDemo show={mounted}/>}</div>
-      </>
+        <>
+            <button onClick={reRender}>Re-render</button>
+            <button onClick={toggle}>Show/Hide LifecycleDemo</button>
+            <div>{mounted && <LifecycleDemo show={mounted} />}</div>
+        </>
     );
-  }
+}
 
 
 
 
-  
-  /////////////////////////////
+
+/////////////////////////////
 
 const YourFeedTab = React.memo(props => {
     const feedOnClick = () => {
@@ -64,14 +64,14 @@ const GlobalFeedTab = React.memo(props => {
     );
 })
 
-const MyTab = React.memo(()=>{
+const MyTab = React.memo(() => {
     const [tab, setTab] = useState("global")
 
-    return(
+    return (
         <div className="feed-toggle">
             <ul className="nav nav-pills outline-active">
-                <GlobalFeedTab tab={tab} setTab={setTab}/>
-                <YourFeedTab   tab={tab} setTab={setTab} token="1"/>
+                <GlobalFeedTab tab={tab} setTab={setTab} />
+                <YourFeedTab tab={tab} setTab={setTab} token="1" />
             </ul>
         </div>
     );
@@ -82,16 +82,16 @@ const MyTab = React.memo(()=>{
 function TextInputWithFocusButton() {
     const inputEl = useRef(null);
     const onButtonClick = () => {
-      // `current` points to the mounted text input element
-      inputEl.current.focus();
+        // `current` points to the mounted text input element
+        inputEl.current.focus();
     };
     return (
-      <>
-        <input ref={inputEl} type="text" />
-        <button onClick={onButtonClick}>Focus the input</button>
-      </>
+        <>
+            <input ref={inputEl} type="text" />
+            <button onClick={onButtonClick}>Focus the input</button>
+        </>
     );
-  }
+}
 
 
 class ButtonCount extends React.Component {
@@ -100,13 +100,25 @@ class ButtonCount extends React.Component {
         this.state = { num: 0, comments: "okela" }
     }
 
+    componentDidMount() {
+        console.log("here we did mout in CLASS COMPONENT")
+    }
+
+    componentWillUnmount() {
+        console.log("here we un mout in CLASS COMPONENT")
+    }
+
+    componentDidUpdate() {
+        console.log("here we just update in CLASS COMPONENT")
+    }
+
     buttonHandling = () => {
         // console.log(this.state)
         this.setState({ num: this.state.num + 1 });
     }
 
-    ListItem(props){
-        return(
+    ListItem(props) {
+        return (
             // <li key={props.value.toString()}>{props.value}</li>
             <li>{props.value}</li>
         );
@@ -119,9 +131,8 @@ class ButtonCount extends React.Component {
                 <button type="button" onClick={this.buttonHandling}>Count me up</button>
                 <br />
                 <ul>
-                    {arr.map((x, key) => 
-                    // <li key={key}><strong>{x}</strong></li>
-                    <this.ListItem value={x} key={key}/>
+                    {this.state.num % 2 === 0 && arr.map((x, key) =>
+                        <this.ListItem value={x} key={key} />
                     )}
                 </ul>
             </div>
@@ -130,15 +141,20 @@ class ButtonCount extends React.Component {
 }
 
 
-function FunctionalCount(){
+function FunctionalCount() {
     const [count, setMyCount] = useState(0)
     const [msg, setMsg] = useState("abc")
+
+    useEffect(()=>{
+        console.log("FUNC COMPONENT render")
+        return () => {console.log("FUNC COMPONENT unmout")}
+    })
 
     return (
         <div>
             <p>You click {count} times</p>
             <strong>{msg}</strong>
-            <br/>
+            <br />
             <button onClick={() => setMyCount(count + 1)}>Click me</button>
         </div>
     );
@@ -228,22 +244,22 @@ function MainView() {
 
 
             <ArticleList articles={
-                [ 
-                    {author:{username:"minh tu"}, img_name:"QN.jpg", favorite:true, date:"November 13, 2019", favoritesCount:13, title:"Luv my angle", description:"One of my most important thing in my whole world !!!", slug:13}, 
-                    {author:{username:"hoai thuong"}, img_name:"logo512.png", favorite:false, date:"May 20, 2002", favoritesCount:1, title:"How to understand alien language", description:"bruh dak lmao haha bla bla bla", slug:14},
-                    {author:{username:"hoai thuong"}, img_name:"logo512.png", favorite:false, date:"Fed 26, 2003", favoritesCount:0, title:"How to understand alien language (ver2)", description:"ver 2 bruh dak lmao haha bla bla bla", slug:16} 
-                ]}/>
+                [
+                    { author: { username: "minh tu" }, img_name: "QN.jpg", favorite: true, date: "November 13, 2019", favoritesCount: 13, title: "Some teaching technique", description: "One of my most important thing !!!", slug: 13 },
+                    { author: { username: "hoai thuong" }, img_name: "logo512.png", favorite: false, date: "May 20, 2002", favoritesCount: 1, title: "How to understand alien language", description: "bruh dak lmao haha bla bla bla", slug: 14 },
+                    { author: { username: "hoai thuong" }, img_name: "logo512.png", favorite: false, date: "Fed 26, 2003", favoritesCount: 0, title: "How to understand alien language (ver2)", description: "ver 2 bruh dak lmao haha bla bla bla", slug: 16 }
+                ]} />
 
-            <hr/>
+            <hr />
 
-            <br/><br/><br/><br/>
-
+            <br /><br /><br /><br />
             
+            <TextInputWithFocusButton />
 
             {/* {<p>true</p> && <h2>false</h2>} */}
-            
+
             {false ? <p>true</p> : <p>false</p>}
-            <hr/>
+            <hr />
             <ButtonCount />
 
             <hr />
@@ -262,6 +278,11 @@ function MainView() {
 
             <TestTheme />
             
+
+            <Abc />
+
+
+
         </div>
     );
 }
