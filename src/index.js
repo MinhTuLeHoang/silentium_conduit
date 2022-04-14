@@ -5,19 +5,22 @@ import { Provider } from 'react-redux';
 import { store, history } from './store';
 import { Route, Routes } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
+import { ThemeProvider } from './context/ThemeContext';
 
 import App from './App';
 
 ReactDOM.render(
   <Provider store={store}>
-    {/* <ConnectedRouter history={history}>
-      <Routes>
-        <Route exact path="/" element={<App />}/>
-      </Routes>
-    </ConnectedRouter> */}
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+    <ThemeProvider>
+      {/* <ConnectedRouter history={history}>
+        <Routes>
+          <Route exact path="/" element={<App />}/>
+        </Routes>
+      </ConnectedRouter> */}
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </ThemeProvider>
   </Provider>,
   document.getElementById('root')
 );

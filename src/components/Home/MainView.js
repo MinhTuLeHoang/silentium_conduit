@@ -1,6 +1,7 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect, useRef, useContext} from "react";
 import ArticleList from "./ArticleList";
-
+import { ThemeContext } from "../../context/ThemeContext";
+import './Banner.css'
 
 function LifecycleDemo(props) {
     // It takes a function
@@ -206,34 +207,21 @@ const Page1 = (props) => {
 
 // const 
 
-
+const TestTheme = () => {
+    const { theme, toggleTheme } = useContext(ThemeContext)
+    return (
+        <>
+            <button onClick={toggleTheme} style={{padding: "0.5rem", backgroundColor: "yellow", borderRadius: "10px", border:"1px solid yellow"}}>Change Theme</button>
+            <div className={theme}>abc</div>
+        </>
+    )
+}
 
 
 
 
 function MainView() {
-    const [localNumber, setLocalNumber] = useState(0)
-    const [childNumber, setChildNumber] = useState(0)
-    const [arr, setArr] = useState([1,2,3,4,5,6,7,8,9,10,11,12,13,14])
-
-    function incrementLocal() {
-        setLocalNumber(state => state + 1)
-    }
-
-    function changeChildNumber(number) {
-        setChildNumber(number)
-    }
-
-    function getLargeNumber() {
-        console.log("I'm working")
-        return Math.max(...arr)
-    }
-
-    function changeArray() {
-        setArr([60, 70, 80, 90])
-    }
-
-    let count = 0
+    
     return (
         <div className="col-md-9">
             <MyTab />
@@ -270,7 +258,9 @@ function MainView() {
 
             <FunctionalCount />
 
+            <hr />
 
+            <TestTheme />
             
         </div>
     );
